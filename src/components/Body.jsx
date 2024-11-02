@@ -3,11 +3,14 @@ import RestaurantCards from "./RestaurantCards";
 import { useState, useEffect } from "react";
 import LoadingSkeleton from "./LoadingSkeleton";
 import Button from "./Button";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const onlineStatus = useOnlineStatus();
 
   useEffect(() => {
     fetchData();
@@ -43,6 +46,18 @@ const Body = () => {
     );
     setFilteredRestaurants(filteredList);
   };
+
+  if (!onlineStatus) {
+    return (
+      <div className="offline-container">
+        <div className="offline-content">
+          <div className="offline-icon">⚠️</div>
+          <h2>You&apos;re Offline</h2>
+          <p>Please check your internet connection and try again</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="body">

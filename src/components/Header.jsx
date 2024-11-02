@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { WHITE_LOGO } from "../utils/constants";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const onlineStatus = useOnlineStatus();
 
   return (
     <div className="header">
@@ -22,6 +25,7 @@ const Header = () => {
 
       <div className={`nav-items ${isMenuOpen ? "active" : ""}`}>
         <ul>
+          <li>Online: {onlineStatus ? "🟢" : "🔴"}</li>
           <li>About Us</li>
           <li>Contact Us</li>
           <li>Order Now</li>
