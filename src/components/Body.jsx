@@ -1,6 +1,7 @@
 import { Search } from "./Search";
 import RestaurantCards from "./RestaurantCards";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import LoadingSkeleton from "./LoadingSkeleton";
 import Button from "./Button";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -11,10 +12,18 @@ const Body = () => {
   const [loading, setLoading] = useState(true);
 
   const onlineStatus = useOnlineStatus();
+  const location = useLocation(); // Get the current route location
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    // Reset filteredRestaurants to all restaurants when navigating to "/"
+    if (location.pathname === "/") {
+      setFilteredRestaurants(listOfRestaurants);
+    }
+  }, [location, listOfRestaurants]);
 
   const fetchData = async () => {
     try {

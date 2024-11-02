@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { WHITE_LOGO } from "../utils/constants";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,9 +10,9 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className="logo-container">
+      <Link to="/" className="logo-container">
         <img className="logo" alt="logo" src={WHITE_LOGO} />
-      </div>
+      </Link>
 
       {/* Hamburger Menu Button */}
       <div
