@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import LoadingSkeleton from "./LoadingSkeleton";
 import Button from "./Button";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import { API_URL } from "../utils/constants";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
@@ -28,10 +29,13 @@ const Body = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await fetch("https://dummyjson.com/recipes");
+      const data = await fetch(API_URL);
       const json = await data.json();
-      setListOfRestaurants(json.recipes);
-      setFilteredRestaurants(json.recipes);
+      const finalData =
+        json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants;
+      setListOfRestaurants(finalData);
+      setFilteredRestaurants(finalData);
       setLoading(false);
     } catch (error) {
       console.log("Error fetching data:", error);
@@ -44,16 +48,19 @@ const Body = () => {
     }
 
     const filteredRes = listOfRestaurants.filter((res) =>
-      res?.name?.toLowerCase().includes(searchText.toLowerCase())
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredRestaurants(filteredRes);
   };
 
   const topRestaurants = () => {
-    const filteredList = listOfRestaurants.filter(
-      (res) => res.prepTimeMinutes < 15
+    const filteredResturant = listOfRestaurants.filter(
+      (res) =>
+        res.info &&
+        parseFloat(res.info.avgRatingString) >= 3.5 &&
+        parseFloat(res.info.avgRatingString) < 4.2
     );
-    setFilteredRestaurants(filteredList);
+    setFilteredRestaurants(filteredResturant);
   };
 
   if (!onlineStatus) {
@@ -78,8 +85,8 @@ const Body = () => {
           ? Array(8)
               .fill(null)
               .map((_, index) => <LoadingSkeleton key={index} />)
-          : filteredRestaurants.map((restaurant, index) => (
-              <RestaurantCards key={index} restaurant={restaurant} />
+          : filteredRestaurants.map((resData, index) => (
+              <RestaurantCards key={index} resData={resData} />
             ))}
       </div>
     </div>
