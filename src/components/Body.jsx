@@ -1,10 +1,10 @@
 import { Search } from "./Search";
 import RestaurantCards from "./RestaurantCards";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import LoadingSkeleton from "./LoadingSkeleton";
 import Button from "./Button";
-import useOnlineStatus from "../utils/useOnlineStatus";
+import useOnlineStatus from "../Hooks/useOnlineStatus";
 import { API_URL } from "../utils/constants";
 
 const Body = () => {
@@ -82,11 +82,13 @@ const Body = () => {
 
       <div className="card-container">
         {loading
-          ? Array(8)
+          ? Array(20)
               .fill(null)
               .map((_, index) => <LoadingSkeleton key={index} />)
           : filteredRestaurants.map((resData, index) => (
-              <RestaurantCards key={index} resData={resData} />
+              <Link key={index} to={`/restaurant/${resData.info.id}`}>
+                <RestaurantCards resData={resData} />
+              </Link>
             ))}
       </div>
     </div>

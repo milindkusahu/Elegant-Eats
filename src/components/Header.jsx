@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { WHITE_LOGO } from "../utils/constants";
-import useOnlineStatus from "../utils/useOnlineStatus";
+import useOnlineStatus from "../Hooks/useOnlineStatus";
 import { Link } from "react-router-dom";
 
 const Header = () => {
