@@ -5,8 +5,6 @@ const BLACK_LOGO = "/black-logo.png";
 const API_URL =
   "https://food-wagon-backend.onrender.com/api/restaurants?lat=25.61011402528211&lng=85.116419903934";
 
-// const API_URL = "https://dummyjson.com/recipes";
-
 const MENU_URL =
   "https://food-wagon-backend.onrender.com/api/menu?lat=25.61011402528211&lng=85.116419903934&restaurantId=";
 
